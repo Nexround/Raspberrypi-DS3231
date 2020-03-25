@@ -62,7 +62,6 @@ void ByteData()
 {
 	extern int fd;
 	DS3231_REG_Read();
-	
 	for (int i = 0; i < 7; i++)
 	{
 		byteData[i] = BCD_to_Byte(DS3231_ReadReg[i]);
