@@ -12,6 +12,7 @@
 #include "ds3231lib.h"
 ```
 Attention: the wiringPi library provides function to access I2C,so you need to make you sure you have already installed the wiringPi library.
+see how-to-use in the examples.
 ```shell
 gcc -c yourfile.c ds3231lib.c
 gcc -o main yourfile.o ds3231lib.o -lwiringPi
