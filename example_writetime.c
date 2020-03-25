@@ -14,6 +14,8 @@ int main()
 		printf("Failed to Connect!");
 	if (choose == 'y' || choose == 'Y')
 	{	
+		//writeSysTimetoDS() function will synchronize DS3231's time with system time.
+		//Attention: the time will be same as shell command "date",it won't care about the timezone.
 		writeSysTimetoDS();
 		printf("Done.\n");
 	}
