@@ -39,7 +39,8 @@ struct DS3231_Read
 	uint8_t day;
 	uint8_t date;
 	uint8_t month;
-	char *year;
+	uint8_t year;
+
 };
 
 uint8_t DS3231_ReadReg[16];
@@ -57,12 +58,10 @@ extern char formatedTime[8][5]; //sec, min ,hour, day, date, month, year, ampm
 
 
 int DS3231_Init( );
-uint8_t BCD_to_Byte(uint8_t );
-uint8_t Byte_to_BCD(uint8_t );
+uint8_t BCD_to_Byte(uint8_t value);
+uint8_t Byte_to_BCD(uint8_t value);
 void DS3231_REG_Read( );
-void TimeOutput(int );
-void DS3231_REG_Write(int , uint8_t *);
-void UserTimeWrite( );
+void TimeOutput(int mode);
 void FormatTime( );
 void ByteData( );
 void TemperatureOutput( );

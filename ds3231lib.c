@@ -14,6 +14,7 @@ uint8_t REG_ADDRESSES[16] = {	DS3231_REG_SECOND,
 															DS3231_REG_A2M, 
 															DS3231_REG_A2H,
 															DS3231_REG_A2D,
+															DS3231_REG_CONTROL,
 															DS3231_REG_HTEMP,
 															DS3231_REG_LTEMP	};
 
@@ -46,31 +47,30 @@ uint8_t Byte_to_BCD(uint8_t value)
 
 void TimeOutput(int mode)
 {
-	extern int fd;
-	FormatTime(fd);
+	FormatTime();
 	switch (mode)
 	{
 		case 1 : printf("%s:%s:%s %s\n", formatedTime[2], formatedTime[1], formatedTime[0], stateOfTime); break;
 		
 		case 2 : printf("%s/%s/%s %s %s:%s:%s %s\n", formatedTime[6], formatedTime[5], formatedTime[4], whichDay, formatedTime[2], formatedTime[1], formatedTime[0], stateOfTime); break;
 
-		case 3 : printf("%s", formatedTime[6]);
+		case 3 : printf("%s/%s/%s", formatedTime[6], formatedTime[5], formatedTime[4]);
 	}
 	
 }
+
 void ByteData()
 {
-	extern int fd;
 	DS3231_REG_Read();
 	for (int i = 0; i < 7; i++)
 	{
 		byteData[i] = BCD_to_Byte(DS3231_ReadReg[i]);
-		//printf("%d\n", byteData[i]);
 	}
 }
+
 void FormatTime()
 {
-	extern int fd;
+	ByteData();
 	if ((DS3231_ReadReg[2] & 0x40) != 0) //判断12小时或24小时模式，bit6高位为12小时模式
 	{
 		hourMode = true;
@@ -122,11 +122,18 @@ void FormatTime()
 	sprintf(_temp, "%d", byteData[6]);
 	strcat(formatedTime[6], _temp);//为年份前加20
 	strcpy(whichDay, week[ (int)(byteData[3]) ]);
+
+	DS3231_Read.sec = byteData[0];
+	DS3231_Read.min = byteData[1];
+	DS3231_Read.hour = byteData[2];
+	DS3231_Read.day = byteData[3];
+	DS3231_Read.date = byteData[4];
+	DS3231_Read.month = byteData[5];
+	DS3231_Read.year = byteData[6];
 }
 
 void DS3231_REG_Read()
 {
-	extern int fd;
 	for (int i = 0; i < 16; i++)
 	{
 		DS3231_ReadReg[i] = wiringPiI2CReadReg8(fd, REG_ADDRESSES[i]);
@@ -150,6 +157,7 @@ void setSecond(uint8_t _wsec)
 {
 	wiringPiI2CWriteReg8(fd, DS3231_REG_SECOND, Byte_to_BCD(_wsec));
 }
+
 void setMinute(uint8_t _wmin)
 {
 	wiringPiI2CWriteReg8(fd, DS3231_REG_MINUTE, Byte_to_BCD(_wmin));
