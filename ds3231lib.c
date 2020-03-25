@@ -28,6 +28,7 @@ char stateOfTime[3] = "";
 uint8_t byteData[16];
 //sec, min ,hour, day, date, month, year, a1s, a1m, a1h, a1d, a2m, a2h, a2d, htemp, ltemp
 char formatedTime[8][5] = {"0", "0", "0", "0", "0", "0", "20", "0"}; //sec, min ,hour, day, date, month, year, ampm
+struct DS3231_Read DS3231;
 
 int DS3231_Init( )
 {
