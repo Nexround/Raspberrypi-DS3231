@@ -1,21 +1,21 @@
 #include "ds3231lib.h"
 
-uint8_t REG_ADDRESSES[16] = {	 DS3231_REG_SECOND,
-																		 DS3231_REG_MINUTE,
-																		 DS3231_REG_HOUR, 
-																		 DS3231_REG_DAY, 
-																		 DS3231_REG_DATE, 
-																		 DS3231_REG_MONTH, 
-																		 DS3231_REG_YEAR, 
-																		 DS3231_REG_A1S, 
-																		 DS3231_REG_A1M, 
-																		 DS3231_REG_A1H, 
-																		 DS3231_REG_A1D, 
-																		 DS3231_REG_A2M, 
-																		 DS3231_REG_A2H,
-																		 DS3231_REG_A2D,
-																		 DS3231_REG_HTEMP,
-																		 DS3231_REG_LTEMP	};
+uint8_t REG_ADDRESSES[16] = {	DS3231_REG_SECOND,
+															DS3231_REG_MINUTE,
+															DS3231_REG_HOUR, 
+															DS3231_REG_DAY, 
+															DS3231_REG_DATE, 
+															DS3231_REG_MONTH, 
+															DS3231_REG_YEAR, 
+															DS3231_REG_A1S, 
+															DS3231_REG_A1M, 
+															DS3231_REG_A1H, 
+															DS3231_REG_A1D, 
+															DS3231_REG_A2M, 
+															DS3231_REG_A2H,
+															DS3231_REG_A2D,
+															DS3231_REG_HTEMP,
+															DS3231_REG_LTEMP	};
 
 int fd;
 uint8_t DS3231_ReadReg[16];
@@ -61,7 +61,7 @@ void TimeOutput(int mode)
 void ByteData()
 {
 	extern int fd;
-	DS3231_REG_Read(fd);
+	DS3231_REG_Read();
 	
 	for (int i = 0; i < 7; i++)
 	{

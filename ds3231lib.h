@@ -38,7 +38,7 @@ struct DS3231_Read
 	uint8_t day;
 	uint8_t date;
 	uint8_t month;
-	uint8_t year;
+	char *year;
 };
 
 uint8_t DS3231_ReadReg[16];

@@ -7,9 +7,9 @@ int main(int argc, char **argv)
 	fd = DS3231_Init();
 	if (fd)
 	{	
-		ByteData(fd);
+		ByteData();
 		TimeOutput(2);
-		TemperatureOutput(fd);
+		TemperatureOutput();
 		
 	}
 	else
