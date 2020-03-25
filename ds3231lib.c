@@ -94,14 +94,12 @@ void FormatTime()
 				char _temp[2];
 				sprintf(_temp, "%d", byteData[2]);
 				strcat(formatedTime[4], _temp);
-				//printf("\n%s\n%d\n", formatedTime[4], byteData[2]);
 			}
 			else
 			{	
 				char _temp[3];
 				sprintf(_temp, "%d", byteData[2]);
 				strcpy(formatedTime[4], _temp);
-				//printf("%s", formatedTime[4]);
 			}
 		}
 
@@ -122,7 +120,7 @@ void FormatTime()
 	sprintf(_temp, "%d", byteData[6]);
 	strcat(formatedTime[6], _temp);//为年份前加20
 	strcpy(whichDay, week[ (int)(byteData[3]) ]);
-	
+
 	DS3231.sec = byteData[0];
 	DS3231.min = byteData[1];
 	DS3231.hour = byteData[2];
