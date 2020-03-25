@@ -51,13 +51,10 @@ void TimeOutput(int mode)
 	FormatTime();
 	switch (mode)
 	{
-		case 1 : printf("%s:%s:%s %s\n", formatedTime[2], formatedTime[1], formatedTime[0], stateOfTime); break;
-		
-		case 2 : printf("%s/%s/%s %s %s:%s:%s %s\n", formatedTime[6], formatedTime[5], formatedTime[4], whichDay, formatedTime[2], formatedTime[1], formatedTime[0], stateOfTime); break;
-
-		case 3 : printf("%s/%s/%s", formatedTime[6], formatedTime[5], formatedTime[4]);
+		case 1 : printf("%s/%s/%s\n", formatedTime[6], formatedTime[5], formatedTime[4]); break;
+		case 2 : printf("%s:%s:%s %s\n", formatedTime[2], formatedTime[1], formatedTime[0], stateOfTime); break;
+		case 3 : printf("%s/%s/%s %s %s:%s:%s %s\n", formatedTime[6], formatedTime[5], formatedTime[4], whichDay, formatedTime[2], formatedTime[1], formatedTime[0], stateOfTime); break;
 	}
-	
 }
 
 void ByteData()

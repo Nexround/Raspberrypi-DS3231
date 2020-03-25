@@ -1,0 +1,6 @@
+{
+  "files.associations": {
+    "stdio.h": "c",
+    "ds3231lib.h": "c"
+  }
+}
