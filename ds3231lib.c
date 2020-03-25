@@ -1,6 +1,6 @@
 #include "ds3231lib.h"
 
-uint8_t REG_ADDRESSES[16] = {	DS3231_REG_SECOND,
+uint8_t REG_ADDRESSES[17] = {	DS3231_REG_SECOND,
 															DS3231_REG_MINUTE,
 															DS3231_REG_HOUR, 
 															DS3231_REG_DAY, 
@@ -19,7 +19,7 @@ uint8_t REG_ADDRESSES[16] = {	DS3231_REG_SECOND,
 															DS3231_REG_LTEMP	};
 
 int fd;
-uint8_t DS3231_ReadReg[16];
+uint8_t DS3231Reg[17];
 const char *week[] = {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
 char whichDay[5];
 bool hourMode;
@@ -64,18 +64,18 @@ void ByteData()
 	DS3231_REG_Read();
 	for (int i = 0; i < 7; i++)
 	{
-		byteData[i] = BCD_to_Byte(DS3231_ReadReg[i]);
+		byteData[i] = BCD_to_Byte(DS3231Reg[i]);
 	}
 }
 
 void FormatTime()
 {
 	ByteData();
-	if ((DS3231_ReadReg[2] & 0x40) != 0) //判断12小时或24小时模式，bit6高位为12小时模式
+	if ((DS3231Reg[2] & 0x40) != 0) //判断12小时或24小时模式，bit6高位为12小时模式
 	{
 		hourMode = true;
 		
-		if ((DS3231_ReadReg[2] & 0x20) != 0) //判断AM/PM，bit5高位为PM
+		if ((DS3231Reg[2] & 0x20) != 0) //判断AM/PM，bit5高位为PM
 		{
 			strcpy(stateOfTime, meridiem[1]);
 		}
@@ -122,21 +122,21 @@ void FormatTime()
 	sprintf(_temp, "%d", byteData[6]);
 	strcat(formatedTime[6], _temp);//为年份前加20
 	strcpy(whichDay, week[ (int)(byteData[3]) ]);
-
-	DS3231_Read.sec = byteData[0];
-	DS3231_Read.min = byteData[1];
-	DS3231_Read.hour = byteData[2];
-	DS3231_Read.day = byteData[3];
-	DS3231_Read.date = byteData[4];
-	DS3231_Read.month = byteData[5];
-	DS3231_Read.year = byteData[6];
+	
+	DS3231.sec = byteData[0];
+	DS3231.min = byteData[1];
+	DS3231.hour = byteData[2];
+	DS3231.day = byteData[3];
+	DS3231.date = byteData[4];
+	DS3231.month = byteData[5];
+	DS3231.year = byteData[6];
 }
 
 void DS3231_REG_Read()
 {
 	for (int i = 0; i < 16; i++)
 	{
-		DS3231_ReadReg[i] = wiringPiI2CReadReg8(fd, REG_ADDRESSES[i]);
+		DS3231Reg[i] = wiringPiI2CReadReg8(fd, REG_ADDRESSES[i]);
 	}
 }
 

@@ -29,9 +29,9 @@
 #define DS3231_REG_HTEMP		0x11
 #define DS3231_REG_LTEMP		0x12
 
-extern uint8_t REG_ADDRESSES[16];
+extern uint8_t REG_ADDRESSES[17];
 
-struct DS3231_Read
+extern struct DS3231_Read
 {
 	uint8_t sec;
 	uint8_t min;
@@ -40,10 +40,9 @@ struct DS3231_Read
 	uint8_t date;
 	uint8_t month;
 	uint8_t year;
+} DS3231;
 
-};
-
-uint8_t DS3231_ReadReg[16];
+uint8_t DS3231_ReadReg[17];
 
 extern int fd;
 
