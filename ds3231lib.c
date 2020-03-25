@@ -135,7 +135,9 @@ void DS3231_REG_Read()
 
 void TemperatureOutput()
 {
-	extern int fd;
+	uint8_t CONV = 0b00100000; //Setting this Convert Temperature bit to 1
+	uint8_t _temp = wiringPiI2CReadReg8(fd, DS3231_REG_CONTROL);
+	wiringPiI2CWriteReg8(fd, DS3231_REG_CONTROL, (_temp | CONV)); 
 	byteData[14] = wiringPiI2CReadReg8(fd, REG_ADDRESSES[14]);
 	byteData[15] = wiringPiI2CReadReg8(fd, REG_ADDRESSES[15]);
 	float ht = (float)(byteData[14]);

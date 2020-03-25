@@ -25,6 +25,7 @@
 #define	DS3231_REG_A2M 			0x0B
 #define	DS3231_REG_A2H			0x0C
 #define DS3231_REG_A2D			0x0D
+#define DS3231_REG_CONTROL  0X0E
 #define DS3231_REG_HTEMP		0x11
 #define DS3231_REG_LTEMP		0x12
 
