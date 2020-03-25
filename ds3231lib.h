@@ -31,7 +31,7 @@
 
 extern uint8_t REG_ADDRESSES[17];
 
-extern struct DS3231_Read
+typedef struct
 {
 	uint8_t sec;
 	uint8_t min;
@@ -40,7 +40,9 @@ extern struct DS3231_Read
 	uint8_t date;
 	uint8_t month;
 	uint8_t year;
-};
+} DS3231_READ;
+
+extern DS3231_READ Clock; 
 
 uint8_t DS3231_ReadReg[17];
 

@@ -19,7 +19,7 @@ uint8_t REG_ADDRESSES[17] = {	DS3231_REG_SECOND,
 															DS3231_REG_LTEMP	};
 
 int fd;
-uint8_t DS3231Reg[17];
+uint8_t DS3231_ReadReg[17];
 const char *week[] = {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
 char whichDay[5];
 bool hourMode;
@@ -28,7 +28,7 @@ char stateOfTime[3] = "";
 uint8_t byteData[16];
 //sec, min ,hour, day, date, month, year, a1s, a1m, a1h, a1d, a2m, a2h, a2d, htemp, ltemp
 char formatedTime[8][5] = {"0", "0", "0", "0", "0", "0", "20", "0"}; //sec, min ,hour, day, date, month, year, ampm
-struct DS3231_Read DS3231;
+DS3231_READ Clock; 
 
 int DS3231_Init( )
 {
@@ -65,18 +65,18 @@ void ByteData()
 	DS3231_REG_Read();
 	for (int i = 0; i < 7; i++)
 	{
-		byteData[i] = BCD_to_Byte(DS3231Reg[i]);
+		byteData[i] = BCD_to_Byte(DS3231_ReadReg[i]);
 	}
 }
 
 void FormatTime()
 {
 	ByteData();
-	if ((DS3231Reg[2] & 0x40) != 0) //判断12小时或24小时模式，bit6高位为12小时模式
+	if ((DS3231_ReadReg[2] & 0x40) != 0) //判断12小时或24小时模式，bit6高位为12小时模式
 	{
 		hourMode = true;
 		
-		if ((DS3231Reg[2] & 0x20) != 0) //判断AM/PM，bit5高位为PM
+		if ((DS3231_ReadReg[2] & 0x20) != 0) //判断AM/PM，bit5高位为PM
 		{
 			strcpy(stateOfTime, meridiem[1]);
 		}
@@ -121,21 +121,21 @@ void FormatTime()
 	sprintf(_temp, "%d", byteData[6]);
 	strcat(formatedTime[6], _temp);//为年份前加20
 	strcpy(whichDay, week[ (int)(byteData[3]) ]);
-
-	DS3231.sec = byteData[0];
-	DS3231.min = byteData[1];
-	DS3231.hour = byteData[2];
-	DS3231.day = byteData[3];
-	DS3231.date = byteData[4];
-	DS3231.month = byteData[5];
-	DS3231.year = byteData[6];
+	
+	Clock.sec = byteData[0];
+	Clock.min = byteData[1];
+	Clock.hour = byteData[2];
+	Clock.day = byteData[3];
+	Clock.date = byteData[4];
+	Clock.month = byteData[5];
+	Clock.year = byteData[6];
 }
 
 void DS3231_REG_Read()
 {
 	for (int i = 0; i < 16; i++)
 	{
-		DS3231Reg[i] = wiringPiI2CReadReg8(fd, REG_ADDRESSES[i]);
+		DS3231_ReadReg[i] = wiringPiI2CReadReg8(fd, REG_ADDRESSES[i]);
 	}
 }
 
@@ -144,8 +144,8 @@ void TemperatureOutput()
 	uint8_t CONV = 0b00100000; //Setting this Convert Temperature bit to 1
 	uint8_t _temp = wiringPiI2CReadReg8(fd, DS3231_REG_CONTROL);
 	wiringPiI2CWriteReg8(fd, DS3231_REG_CONTROL, (_temp | CONV)); 
-	byteData[14] = wiringPiI2CReadReg8(fd, REG_ADDRESSES[14]);
-	byteData[15] = wiringPiI2CReadReg8(fd, REG_ADDRESSES[15]);
+	byteData[14] = wiringPiI2CReadReg8(fd, DS3231_REG_HTEMP);
+	byteData[15] = wiringPiI2CReadReg8(fd, DS3231_REG_LTEMP);
 	float ht = (float)(byteData[14]);
 	float lt = (float)(byteData[15] >> 6) * 0.25;
 	float temperature = ht + lt;
