@@ -1,5 +1,6 @@
 # Raspberrypi-DS3231
  A Raspberrypi Library for DS3231 Real-Time Clocks
+
 ##Function
 
 * read date from DS3231's registers and format them (includes time and temperature)
